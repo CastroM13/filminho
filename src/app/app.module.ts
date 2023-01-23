@@ -11,6 +11,7 @@ import { TrackerComponent } from './tracker/tracker.component';
 import { DetailComponent } from './detail/detail.component';
 import { ToTitleCasePipe } from './to-title-case.pipe';
 import { EditComponent } from './edit/edit.component';
+import { SearchFilterPipe } from './search-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { EditComponent } from './edit/edit.component';
     TrackerComponent,
     DetailComponent,
     ToTitleCasePipe,
+    SearchFilterPipe,
     EditComponent
   ],
   imports: [BrowserModule, IonicModule.forRoot({mode: 'ios'}), AppRoutingModule],

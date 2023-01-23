@@ -81,11 +81,11 @@
 </ion-content>
 <div class="rating-modal" [class.visible]="toRate">
   <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-    <ion-fab-button class="cancel" *ngIf="!changedRate">
-      <ion-icon (click)="closeRate()" name="close"></ion-icon>
+    <ion-fab-button class="cancel" *ngIf="!changedRate" (click)="closeRate()">
+      <ion-icon name="close"></ion-icon>
     </ion-fab-button>
-    <ion-fab-button class="save" *ngIf="changedRate">
-      <ion-icon (click)="rate()" color="green" name="checkmark-outline"></ion-icon>
+    <ion-fab-button class="save" *ngIf="changedRate" (click)="rate()">
+      <ion-icon color="green" name="checkmark-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
   <h2>How good was the show, {{selectedRater}}?</h2>

@@ -11,7 +11,7 @@ import { EditComponent } from '../edit/edit.component';
 })
 export class TrackerComponent implements OnInit {
   data: any = [];
-  touched = false;
+  search = null;
 
   constructor(public modalController: ModalController) { }
 
@@ -29,8 +29,8 @@ export class TrackerComponent implements OnInit {
   }
 
   searchData(event: any) {
-    this.touched = true;
-    console.log(event)
+    this.search = event.detail.value;
+    console.log(event.detail.value)
   }
 
   async dataDetail(data: any) {

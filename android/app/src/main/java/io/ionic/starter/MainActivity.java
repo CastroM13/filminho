@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package castro.filminho;
 
 import com.getcapacitor.BridgeActivity;
 
