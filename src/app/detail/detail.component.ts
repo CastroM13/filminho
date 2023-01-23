@@ -58,7 +58,11 @@ export class DetailComponent implements OnInit {
         Type: this.data.Type,
         Poster: this.data.Poster,
         imdbID: this.data.imdbID,
-        Status: status
+        Status: status,
+        Remarks: {
+          jujuba: 0,
+          tito: 0
+        }
       }),
       method: 'POST',
       headers: {

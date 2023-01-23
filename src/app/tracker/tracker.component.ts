@@ -36,7 +36,7 @@ export class TrackerComponent implements OnInit {
   async dataDetail(data: any) {
     const modal = await this.modalController.create({
       component: EditComponent,
-      componentProps: { data },
+      componentProps: { data }
     });
 
     await modal.present();

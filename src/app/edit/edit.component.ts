@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ModalController, ToastController } from '@ionic/angular';
+import { ModalController, RangeCustomEvent, ToastController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -10,12 +10,15 @@ import { environment } from 'src/environments/environment';
 export class EditComponent implements OnInit {
   @Input('data') data: any;
   details: any;
+  currentRate = 0;
+  changedRate = false;
   loading = false;
   trackerLoading: any = {
     "Watched": false,
     "To Watch": false,
     "In Progress": false,
   };
+  toRate = false;
   remarks = {
     jujuba: {
       fullStars: [],
@@ -29,10 +32,6 @@ export class EditComponent implements OnInit {
     }
   };
   selectedRater: string = '';
-  newRating = {
-    jujuba: 0,
-    tito: 0
-  };
   colors: any = []
 
   constructor(private modal: ModalController, private toastController: ToastController) { }
@@ -44,12 +43,20 @@ export class EditComponent implements OnInit {
     }
   }
 
+  openRate(name: string) {
+    this.selectedRater = name;
+    this.toRate = true;
+  }
+
+  closeRate() {
+    this.toRate = false;
+  }
+
   loadData() {
     this.loading = true;
     fetch("https://www.omdbapi.com/?apikey=5f8e75f6&i=" + this.data.imdbID)
       .then(e => e.json()).then(e => {
         this.details = ({...e, ...this.data});
-        console.log(this.details.Remarks.jujuba)
         this.remarks.jujuba.fullStars = this.fullStars(this.details?.Remarks.jujuba)
         this.remarks.jujuba.halfStar = this.halfStar(this.details?.Remarks.jujuba)
         this.remarks.jujuba.remainingStars = this.remainingStars(this.details?.Remarks.jujuba)
@@ -70,8 +77,20 @@ export class EditComponent implements OnInit {
     this.modal.dismiss(data)
   }
 
-  rate(value: number) {
-    this.newRating = { ...this.newRating, [this.selectedRater]: value}
+  rate() {
+    const newRemarks = {...this.data.Remarks, [this.selectedRater]: this.currentRate}
+    this.data.Remarks = newRemarks;
+    this.updateRating();
+    this.closeRate();
+    this.changedRate = false;
+  }
+
+  changeRate(event: any) {
+    this.currentRate = Number((event as RangeCustomEvent).detail.value);
+  }
+
+  touchRate() {
+    this.changedRate = true;
   }
 
   remove() {
@@ -102,6 +121,25 @@ export class EditComponent implements OnInit {
       color: 'success'
     });
     toast.present();
+  }
+
+  updateRating() {
+    fetch(environment.api + "/tracker", {
+      body: JSON.stringify(this.data),
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+      .then(e => e.json()).then(e => {
+        this.details = ({...this.details, ...e});
+        this.remarks.jujuba.fullStars = this.fullStars(this.details?.Remarks.jujuba)
+        this.remarks.jujuba.halfStar = this.halfStar(this.details?.Remarks.jujuba)
+        this.remarks.jujuba.remainingStars = this.remainingStars(this.details?.Remarks.jujuba)
+        this.remarks.tito.fullStars = this.fullStars(this.details?.Remarks.tito)
+        this.remarks.tito.halfStar = this.halfStar(this.details?.Remarks.tito)
+        this.remarks.tito.remainingStars = this.remainingStars(this.details?.Remarks.tito)
+      });
   }
 
   updateTracker(status: string) {
