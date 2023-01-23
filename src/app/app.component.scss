@@ -1,0 +1,11 @@
+ion-tab-bar {
+    background: #000000bf;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    backdrop-filter: blur(11px);
+    ion-tab-button {
+        --background: transparent;
+    }
+}

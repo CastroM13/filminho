@@ -1,0 +1,107 @@
+<ion-content [fullscreen]="true">
+  <!-- <ion-buttons slot="end">
+    <ion-button (click)="dismiss()">Fechar</ion-button>
+  </ion-buttons> -->
+  <ion-card>
+    <div class="add-tracker">
+      <ion-button (click)="updateTracker('Watched')" size="small">
+        <ng-container *ngIf="!trackerLoading['Watched']; else watchedSpinner">
+          Watched
+        </ng-container>
+        <ng-template #watchedSpinner>
+          <ion-spinner name="bubbles"></ion-spinner>
+        </ng-template>
+      </ion-button>
+      <ion-button (click)="updateTracker('To Watch')" size="small">
+        <ng-container *ngIf="!trackerLoading['To Watch']; else toWatchSpinner">
+          To Watch
+        </ng-container>
+        <ng-template #toWatchSpinner>
+          <ion-spinner name="bubbles"></ion-spinner>
+        </ng-template>
+      </ion-button>
+      <ion-button (click)="updateTracker('In Progress')" size="small">
+        <ng-container *ngIf="!trackerLoading['In Progress']; else inProgressSpinner">
+          In Progress
+        </ng-container>
+        <ng-template #inProgressSpinner>
+          <ion-spinner name="bubbles"></ion-spinner>
+        </ng-template>
+      </ion-button>
+      <ion-button (click)="remove()" size="small" color="danger">
+        <ng-container *ngIf="!trackerLoading['Remove']; else inProgressSpinner">
+          Remove
+        </ng-container>
+        <ng-template #inProgressSpinner>
+          <ion-spinner name="bubbles"></ion-spinner>
+        </ng-template>
+      </ion-button>
+    </div>
+    <img class="poster" alt="Silhouette of mountains"
+      [src]="data.Poster === 'N/A' ? 'https://ionicframework.com/docs/img/demos/card-media.png' : data.Poster" />
+    <ion-card-header>
+      <ion-card-title>{{data.Title}}</ion-card-title>
+      <ion-card-subtitle>{{data.Type | toTitleCase}}</ion-card-subtitle>
+      <ion-card-subtitle>{{data.Year}}</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content *ngIf="!loading && details">
+      <div class="remarks" *ngIf="details?.Remarks">
+        <ion-badge [style]="'--background: transparent;border: 1px solid #e0d6ff;font-weight: 100;'">
+          <img src="../../assets/Macaroon.svg" />
+          <div>
+            <ion-icon name="star" *ngFor="let _ of remarks.jujuba.fullStars"></ion-icon>
+            <ion-icon name="star-half" *ngFor="let _ of remarks.jujuba.halfStar"></ion-icon>
+            <ion-icon name="star-outline" *ngFor="let _ of remarks.jujuba.remainingStars"></ion-icon>
+          </div>
+        </ion-badge>
+        <ion-badge [style]="'--background: transparent;border: 1px solid #f76565;font-weight: 100;'">
+          <img src="../../assets/Pompom.svg" />
+          <div>
+            <ion-icon name="star" *ngFor="let _ of remarks.tito.fullStars"></ion-icon>
+            <ion-icon name="star-half" *ngFor="let _ of remarks.tito.halfStar"></ion-icon>
+            <ion-icon name="star-outline" *ngFor="let _ of remarks.tito.remainingStars"></ion-icon>
+          </div>
+        </ion-badge>
+      </div>
+      <div class="ratings">
+        <ion-badge *ngFor="let r of details?.Ratings; let i = index"
+          [style]="'--background: transparent;border: 1px solid '+colors[i]+';font-weight: 100;'">{{r.Source}} -
+          {{r.Value}}</ion-badge>
+      </div>
+      <p>{{details.Plot}}</p>
+    </ion-card-content>
+    <ion-card-content *ngIf="loading">
+      <ion-spinner name="bubbles"></ion-spinner>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+<div class="rating-modal">
+  <div class="rating">
+    <div class="star">
+      <div (click)="rate(0.5)"></div>
+      <div (click)="rate(1)"></div>
+      <ion-icon name="star-outline"></ion-icon>
+    </div>
+    <div class="star">
+      <div (click)="rate(1.5)"></div>
+      <div (click)="rate(2)"></div>
+      <ion-icon name="star-outline"></ion-icon>
+    </div>
+    <div class="star">
+      <div (click)="rate(2.5)"></div>
+      <div (click)="rate(3)"></div>
+      <ion-icon name="star-outline"></ion-icon>
+    </div>
+    <div class="star">
+      <div (click)="rate(3.5)"></div>
+      <div (click)="rate(4)"></div>
+      <ion-icon name="star-outline"></ion-icon>
+    </div>
+    <div class="star">
+      <div (click)="rate(4.5)"></div>
+      <div (click)="rate(5)"></div>
+      <ion-icon name="star-outline"></ion-icon>
+    </div>
+  </div>
+</div>
