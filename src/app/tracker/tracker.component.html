@@ -9,15 +9,28 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-list *ngIf="data">
-    <ion-card *ngFor="let d of data | searchFilter  :'Title':search" (click)="dataDetail(d)">
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="status">
+      <ion-segment-button [value]="null">
+        <ion-label>All</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Watched">
+        <ion-label>Watched</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="To Watch">
+        <ion-label>To Watch</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="In Progress">
+        <ion-label>In Progress</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+  <div class="movie-list" *ngIf="data">
+    <div *ngFor="let d of data | searchFilter  :'Title':search | searchFilter  :'Status':status" (click)="dataDetail(d)">
       <img class="poster" alt="Silhouette of mountains" [src]="d.Poster === 'N/A' ? 'https://ionicframework.com/docs/img/demos/card-media.png' : d.Poster" />
-      <ion-card-header>
-        <ion-card-title>{{d.Title}}</ion-card-title>
-        <ion-card-subtitle>{{d.Type | toTitleCase}}</ion-card-subtitle>
-        <ion-card-subtitle>{{d.Year}}</ion-card-subtitle>
-        <ion-badge>{{d.Status}}</ion-badge>
-      </ion-card-header>
-    </ion-card>
-  </ion-list>
+      <div class="badge" [ngStyle]="{'background': '#6eb369'}" *ngIf="d.Status === 'Watched'"><ion-icon name="checkmark-outline"></ion-icon></div>
+      <div class="badge" [ngStyle]="{'background': '#575757'}" *ngIf="d.Status === 'To Watch'"><ion-icon name="eye-off-outline"></ion-icon></div>
+      <div class="badge" [ngStyle]="{'background': '#54878f'}" *ngIf="d.Status === 'In Progress'"><ion-icon name="play-forward-circle-outline"></ion-icon></div>
+    </div>
+  </div>
 </ion-content>

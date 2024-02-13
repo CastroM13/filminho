@@ -9,6 +9,10 @@ import { environment } from 'src/environments/environment';
 })
 export class EditComponent implements OnInit {
   @Input('data') data: any;
+  review: {[key: string]: string} = {
+    'jujuba': '',
+    'tito': ''
+  };
   details: any;
   currentRate = 0;
   changedRate = false;
@@ -63,6 +67,10 @@ export class EditComponent implements OnInit {
         this.remarks.tito.fullStars = this.fullStars(this.details?.Remarks.tito)
         this.remarks.tito.halfStar = this.halfStar(this.details?.Remarks.tito)
         this.remarks.tito.remainingStars = this.remainingStars(this.details?.Remarks.tito)
+        if (this.details?.Reviews) {
+          this.review['jujuba'] = this.details?.Reviews.jujuba;
+          this.review['tito'] = this.details?.Reviews.tito;
+        }
         this.loading = false;
       });
   }
@@ -80,6 +88,8 @@ export class EditComponent implements OnInit {
   rate() {
     const newRemarks = {...this.data.Remarks, [this.selectedRater]: this.currentRate}
     this.data.Remarks = newRemarks;
+    const newReviews = {...this.data.Reviews, [this.selectedRater]: this.review[this.selectedRater]}
+    this.data.Reviews = newReviews;
     this.updateRating();
     this.closeRate();
     this.changedRate = false;
@@ -87,6 +97,7 @@ export class EditComponent implements OnInit {
 
   changeRate(event: any) {
     this.currentRate = Number((event as RangeCustomEvent).detail.value);
+    this.changedRate = true;
   }
 
   touchRate() {
@@ -124,6 +135,7 @@ export class EditComponent implements OnInit {
   }
 
   updateRating() {
+    console.log(this.data)
     fetch(environment.api + "/tracker", {
       body: JSON.stringify(this.data),
       method: 'PATCH',

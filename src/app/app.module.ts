@@ -12,6 +12,7 @@ import { DetailComponent } from './detail/detail.component';
 import { ToTitleCasePipe } from './to-title-case.pipe';
 import { EditComponent } from './edit/edit.component';
 import { SearchFilterPipe } from './search-filter.pipe';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import { SearchFilterPipe } from './search-filter.pipe';
     SearchFilterPipe,
     EditComponent
   ],
-  imports: [BrowserModule, IonicModule.forRoot({mode: 'ios'}), AppRoutingModule],
+  imports: [BrowserModule, IonicModule.forRoot({mode: 'ios'}), AppRoutingModule, FormsModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

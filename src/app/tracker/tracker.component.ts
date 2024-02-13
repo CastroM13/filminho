@@ -12,13 +12,18 @@ import { EditComponent } from '../edit/edit.component';
 export class TrackerComponent implements OnInit {
   data: any = [];
   search = null;
+  status = null;
 
   constructor(public modalController: ModalController) { }
 
   ngOnInit(event: any = null) {
     fetch(environment.api + "/tracker")
       .then(e => e.json()).then(e => {
-        this.data = e.map((i: any) => i.Remarks? i : ({...i, Remarks: {jujuba: 0, tito: 0}})).reverse()
+        this.data = e.map((i: any) => ({
+          ...i,
+          Remarks: i.Remarks || {jujuba: 0, tito: 0},
+          Reviews: i.Reviews || {jujuba: '', tito: ''},
+        })).reverse()
       });
     if (event) {
       setTimeout(() => {

@@ -11,7 +11,7 @@
         <ng-container *ngIf="!trackerLoading['Watched']; else watchedSpinner">
           Watched
         </ng-container>
-        <ng-template #watchedSpinner> 
+        <ng-template #watchedSpinner>
           <ion-spinner name="bubbles"></ion-spinner>
         </ng-template>
       </ion-button>
@@ -50,21 +50,25 @@
 
     <ion-card-content *ngIf="!loading && details">
       <div class="remarks" *ngIf="details?.Remarks">
-        <ion-badge (click)="openRate('jujuba')" [style]="'--background: transparent;border: 1px solid #e0d6ff;font-weight: 100;'">
+        <ion-badge (click)="openRate('jujuba')"
+          [style]="'--background: transparent;border: 1px solid #e0d6ff;font-weight: 100;'">
           <img src="../../assets/Macaroon.svg" />
           <div>
             <ion-icon name="star" *ngFor="let _ of remarks.jujuba.fullStars"></ion-icon>
             <ion-icon name="star-half" *ngFor="let _ of remarks.jujuba.halfStar"></ion-icon>
             <ion-icon name="star-outline" *ngFor="let _ of remarks.jujuba.remainingStars"></ion-icon>
           </div>
+          <div class="preview">{{review['jujuba']}}</div>
         </ion-badge>
-        <ion-badge (click)="openRate('tito')" [style]="'--background: transparent;border: 1px solid #f76565;font-weight: 100;'">
+        <ion-badge (click)="openRate('tito')"
+          [style]="'--background: transparent;border: 1px solid #f76565;font-weight: 100;'">
           <img src="../../assets/Pompom.svg" />
           <div>
             <ion-icon name="star" *ngFor="let _ of remarks.tito.fullStars"></ion-icon>
             <ion-icon name="star-half" *ngFor="let _ of remarks.tito.halfStar"></ion-icon>
             <ion-icon name="star-outline" *ngFor="let _ of remarks.tito.remainingStars"></ion-icon>
           </div>
+          <div class="preview">{{review['tito']}}</div>
         </ion-badge>
       </div>
       <div class="ratings">
@@ -89,59 +93,29 @@
     </ion-fab-button>
   </ion-fab>
   <h2>How good was the show, {{selectedRater}}?</h2>
-  <!-- <div class="rating">
-    <div class="star">
-      <div (click)="rate(0.5)"></div>
-      <div (click)="rate(1)"></div>
+  <div class="relative">
+    <div class="center rating">
+      <ion-icon name="star-outline"></ion-icon>
+      <ion-icon name="star-outline"></ion-icon>
+      <ion-icon name="star-outline"></ion-icon>
+      <ion-icon name="star-outline"></ion-icon>
       <ion-icon name="star-outline"></ion-icon>
     </div>
-    <div class="star">
-      <div (click)="rate(1.5)"></div>
-      <div (click)="rate(2)"></div>
-      <ion-icon name="star-outline"></ion-icon>
+    <div class="center overwrapper">
+      <div class="rating overview" [style.width]="64 * currentRate + 'px'">
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+      </div>
     </div>
-    <div class="star">
-      <div (click)="rate(2.5)"></div>
-      <div (click)="rate(3)"></div>
-      <ion-icon name="star-outline"></ion-icon>
-    </div>
-    <div class="star">
-      <div (click)="rate(3.5)"></div>
-      <div (click)="rate(4)"></div>
-      <ion-icon name="star-outline"></ion-icon>
-    </div>
-    <div class="star">
-      <div (click)="rate(4.5)"></div>
-      <div (click)="rate(5)"></div>
-      <ion-icon name="star-outline"></ion-icon>
-    </div>
-  </div> -->
-  <div class="center rating">
-    <ion-icon name="star-outline"></ion-icon>
-    <ion-icon name="star-outline"></ion-icon>
-    <ion-icon name="star-outline"></ion-icon>
-    <ion-icon name="star-outline"></ion-icon>
-    <ion-icon name="star-outline"></ion-icon>
-  </div>
-  <div class="center overwrapper">
-    <div class="rating overview" [style.width]="64 * currentRate + 'px'">
-      <ion-icon name="star"></ion-icon>
-      <ion-icon name="star"></ion-icon>
-      <ion-icon name="star"></ion-icon>
-      <ion-icon name="star"></ion-icon>
-      <ion-icon name="star"></ion-icon>
-    </div>
+    <ion-range class="center invisible" min="0" max="5" pin="true" snaps="true" step=".5" ticks="true" value="0"
+      color="primary" [value]="data.Remarks[selectedRater]" (ionChange)="changeRate($event)">
+    </ion-range>
   </div>
   <div></div>
-  <ion-range
-    class="center invisible"
-    min="0" max="5"
-    pin="true"
-    snaps="true" step=".5"
-    ticks="true" value="0"
-    color="primary"
-    [value]="data.Remarks[selectedRater]"
-    (click)="touchRate()"
-    (ionChange)="changeRate($event)">
-  </ion-range>
+  <div class="text-rating">
+    <ion-textarea [(ngModel)]="review[selectedRater]" (ionInput)="touchRate()" [autoGrow]="true" fill="outline" placeholder="Type your review here"></ion-textarea>
+  </div>
 </div>

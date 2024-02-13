@@ -44,7 +44,7 @@ img {
     pointer-events: none;
     background: rgba(0, 0, 0, 0.616);
     backdrop-filter: blur(8px);
-    justify-content: space-around;
+    justify-content: space-evenly;
     display: flex;
     align-items: center;
     width: 100%;
@@ -125,9 +125,34 @@ ion-range {
 
 .center {
     position: absolute;
-    top: 45vh;
+    height: 64px;
+    padding: 0;
 }
 
 .invisible {
     opacity: 0;
+    width: 320px;
+    transform: translateX(-15px);
+}
+
+.text-rating {
+    height: 200px;
+    width: calc(100% - 32px);
+    margin: 16px;
+    overflow: scroll;
+    outline: 1px solid #ffffff38;
+    border-radius: 5px;
+    padding: 0 8px;
+}
+
+.relative {
+    position: relative;
+    width: 320px;
+    height: 64px;
+}
+
+.preview {
+    text-overflow: ellipsis;
+    white-space: pre;
+    overflow: hidden;
 }
