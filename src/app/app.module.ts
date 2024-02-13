@@ -13,6 +13,8 @@ import { ToTitleCasePipe } from './to-title-case.pipe';
 import { EditComponent } from './edit/edit.component';
 import { SearchFilterPipe } from './search-filter.pipe';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({
   declarations: [
@@ -24,8 +26,9 @@ import { FormsModule } from '@angular/forms';
     SearchFilterPipe,
     EditComponent
   ],
-  imports: [BrowserModule, IonicModule.forRoot({mode: 'ios'}), AppRoutingModule, FormsModule],
+  imports: [BrowserModule, IonicModule.forRoot({mode: 'ios'}), AppRoutingModule, FormsModule, HttpClientModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}

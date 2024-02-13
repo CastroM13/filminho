@@ -1,24 +1,42 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-searchbar debounce="500" (ionChange)="searchData($event)" placeholder="Series, Movies & TV Dramas"></ion-searchbar>
+    <ion-searchbar debounce="500" (ionChange)="searchData($event)"
+      placeholder="Series, Movies & TV Dramas"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header [style.height]="touched ? '0px': 'auto'" collapse="condense">
-    <ion-toolbar *ngIf="!touched" [style.height]="touched ? '0px': 'auto'">
-      <ion-title size="medium">
-        Write something to begin!
-      </ion-title>
-    </ion-toolbar>
-    <div *ngIf="!touched" class="align-center">
-      <img src="../../assets/pompom.png"/>
+  <div *ngIf="!touched">
+    <div *ngIf="featured" class="featured-wrapper">
+      <iframe [src]="featured.trailer" frameborder="0" allow="autoplay"></iframe>
+      <div *ngIf="videoLoading" class="loading"><ion-spinner name="crescent"></ion-spinner></div>
+      <h3 *ngIf="videoLoading">{{featured.original_title}}</h3>
     </div>
-  </ion-header>
-
+    <div class="ion-padding">
+      <h3>Popular</h3>
+      <swiper-container space-between="10" slides-per-view="3" speed="500" loop="true" css-mode="true">
+        <swiper-slide *ngFor="let np of popular">
+          <img [src]="np.cover">
+        </swiper-slide>
+      </swiper-container>
+      <h3>Top Rated</h3>
+      <swiper-container space-between="10" slides-per-view="3" speed="500" loop="true" css-mode="true">
+        <swiper-slide *ngFor="let np of topRated">
+          <img [src]="np.cover">
+        </swiper-slide>
+      </swiper-container>
+      <h3>Upcoming</h3>
+      <swiper-container space-between="10" slides-per-view="3" speed="500" loop="true" css-mode="true">
+        <swiper-slide *ngFor="let np of upcoming">
+          <img [src]="np.cover">
+        </swiper-slide>
+      </swiper-container>
+    </div>
+  </div>
   <ion-list *ngIf="data">
     <ion-card *ngFor="let d of data" (click)="dataDetail(d)">
-      <img class="poster" alt="Silhouette of mountains" [src]="d.Poster === 'N/A' ? 'https://ionicframework.com/docs/img/demos/card-media.png' : d.Poster" />
+      <img class="poster" alt="Silhouette of mountains"
+        [src]="d.Poster === 'N/A' ? 'https://ionicframework.com/docs/img/demos/card-media.png' : d.Poster" />
       <ion-card-header>
         <ion-card-title>{{d.Title}}</ion-card-title>
         <ion-card-subtitle>{{d.Type | toTitleCase}}</ion-card-subtitle>
